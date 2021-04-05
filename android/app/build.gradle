@@ -131,7 +131,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.habingo"
+        applicationId "com.saw.habingo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

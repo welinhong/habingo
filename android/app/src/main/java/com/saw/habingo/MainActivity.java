@@ -1,4 +1,4 @@
-package com.habingo;
+package com.saw.habingo;
 
 import com.facebook.react.ReactActivity;
 
