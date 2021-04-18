@@ -1,0 +1,20 @@
+{
+  "Create New Empty React Component": {
+    "prefix": ["rc", "ccc"],
+    "description": "Create New Empty React Component",
+    "body": [
+      "import { StyleSheet } from 'react-native'",
+      "",
+      "export interface Props {}",
+      "",
+      "const $1: React.FC<Props> = () => {",
+      "  return <div></div>",
+      "}",
+      "",
+      "const styles = StyleSheet.create({})",
+      "",
+      "export default $1",
+      ""
+    ]
+  }
+}
