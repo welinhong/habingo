@@ -1,7 +1,6 @@
 {
-  // "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll": true
-  }
+    "source.fixAll.eslint": true // eslint --fix (to get automatic fixing whenever saving a file)
+  },
+  "editor.formatOnSave": true,
 }
