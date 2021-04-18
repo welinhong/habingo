@@ -7,7 +7,7 @@
  *
  * @format
  */
-import React from 'react';
+import React from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -17,15 +17,15 @@ import {
   StatusBar,
   TextInput,
   Button,
-} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+} from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const BingoPanelScreen = ({route, navigation}) => {
-  const {items = []} = route.params || {};
+const BingoPanelScreen = ({ route, navigation }) => {
+  const { items = [] } = route.params || {}
 
   const handleMenuPress = () => {
-    navigation.openDrawer();
-  };
+    navigation.openDrawer()
+  }
 
   return (
     <SafeAreaView style={styles.bingoPanel}>
@@ -49,8 +49,8 @@ const BingoPanelScreen = ({route, navigation}) => {
         ))}
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   title: {
@@ -85,6 +85,6 @@ const styles = StyleSheet.create({
   inputButtonText: {
     color: '#666666',
   },
-});
+})
 
-export default BingoPanelScreen;
+export default BingoPanelScreen

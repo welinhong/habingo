@@ -10,12 +10,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
-  Text,
-  StatusBar,
   Button,
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
@@ -23,6 +19,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   createDrawerNavigator,
+  DrawerContentComponentProps,
+  DrawerContentOptions,
   DrawerContentScrollView,
   DrawerItem,
 } from '@react-navigation/drawer';
@@ -41,7 +39,8 @@ const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
 // 참고하기: https://github.com/react-navigation/react-navigation/blob/16e7ac131f2ebde23cfe6dabc55a1c91327ffa56/example/src/Screens/MasterDetail.tsx
-function CustomDrawerContent(props) {
+
+const CustomDrawerContent = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
   const {navigation} = props;
 
   const handleNavigation = (screenName: string) => {

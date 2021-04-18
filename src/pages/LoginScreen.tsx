@@ -7,25 +7,17 @@
  *
  * @format
  */
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  Button,
-} from 'react-native';
+import React from 'react'
+import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button } from 'react-native'
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Login</Text>
     </View>
-  );
-};
+  )
+}
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})
 
-export default LoginScreen;
+export default LoginScreen

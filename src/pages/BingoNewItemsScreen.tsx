@@ -1,28 +1,22 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  TextInput,
-  SafeAreaView,
-} from 'react-native';
+import React, { useState } from 'react'
+import { StyleSheet, View, Text, Button, TextInput, SafeAreaView } from 'react-native'
 
-const BingoNewItemsScreen = ({route, navigation}) => {
-  const [value, onChangeText] = useState<string>('');
-  const [items, onChangeItems] = useState<string[]>([]);
+// eslint-disable-next-line react/prop-types
+const BingoNewItemsScreen: React.ComponentType<any> = ({ navigation }) => {
+  const [value, onChangeText] = useState<string>('')
+  const [items, onChangeItems] = useState<string[]>([])
 
   const handleAddButtonClick = () => {
-    const newItems = [...items, value];
-    onChangeItems(newItems);
+    const newItems = [...items, value]
+    onChangeItems(newItems)
 
-    onChangeText('');
-  };
+    onChangeText('')
+  }
 
   const handleDeleteButtonClick = (index: number) => {
-    const newItems = items.filter((item, itemIndex) => itemIndex !== index);
-    onChangeItems(newItems);
-  };
+    const newItems = items.filter((item, itemIndex) => itemIndex !== index)
+    onChangeItems(newItems)
+  }
 
   return (
     <SafeAreaView>
@@ -53,17 +47,20 @@ const BingoNewItemsScreen = ({route, navigation}) => {
       <Button
         title="Save"
         onPress={() => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+          // eslint-disable-next-line react/prop-types
           navigation.navigate({
             name: 'BingoPanel',
             params: {
               items,
             },
-          });
+          })
         }}
       />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   title: {
@@ -95,6 +92,6 @@ const styles = StyleSheet.create({
   itemList: {
     padding: 10,
   },
-});
+})
 
-export default BingoNewItemsScreen;
+export default BingoNewItemsScreen
