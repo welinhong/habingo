@@ -3,6 +3,7 @@
 // @ts-ignore
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { RouteProp } from '@react-navigation/core'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
 import React, { ComponentType } from 'react'
 import {
   SafeAreaView,
@@ -19,15 +20,14 @@ import { TabParamList } from '../types'
 
 interface Props {
   route: RouteProp<TabParamList, 'BingoPanel'>
-  navigation: BottomTabNavigationProp<TabParamList, 'BingoPanel'>
+  navigation: DrawerNavigationProp<TabParamList, 'BingoPanel'>
 }
 
 const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { items = [] } = route.params
+  const items = route?.params?.items || []
 
   const handleMenuPress = () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    // navigation.openDrawer()
+    navigation.openDrawer()
   }
 
   return (
