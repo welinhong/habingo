@@ -1,4 +1,13 @@
 module.exports = {
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
+    ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
+    sourceType: 'module', // Allows for the use of imports
+    ecmaFeatures: {
+      jsx: true, // Allows for the parsing of JSX
+    },
+  },
   env: {
     es6: true,
     node: true,
@@ -11,24 +20,18 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
   ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: './tsconfig.json',
-    ecmaFeatures: {
-      jsx: true,
-    },
-    ecmaVersion: 12,
-    sourceType: 'module',
-  },
+  
   plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
   rules: {
-    // '@typescript-eslint/no-empty-function': 'off',
-    // 'react/display-name': 'off',
-    // 'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off', // No need to import React with Next.js
+    '@typescript-eslint/no-empty-interface': 0,
+    'prettier/prettier': 0,
+    'react/prop-types': ['error', { ignore: ['navigation', 'route'] }],
   },
   settings: {
     react: {
       version: 'detect',
     },
   },
+  ignorePatterns: ['node_modules/*'], 
 }
