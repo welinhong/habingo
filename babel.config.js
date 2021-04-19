@@ -12,5 +12,6 @@ module.exports = {
         },
       },
     ],
+    'babel-plugin-styled-components', // 디버깅시 class명을 확인하기 쉽게 만들어준다.
   ],
-};
+}
