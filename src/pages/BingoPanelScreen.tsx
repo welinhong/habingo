@@ -15,7 +15,9 @@ import {
   TextInput,
   Button,
 } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { FlingGestureHandler, TouchableOpacity } from 'react-native-gesture-handler'
+import styled from 'styled-components'
+import BingoBox from '../components/atoms/BingoBox'
 import { TabParamList } from '../types'
 
 interface Props {
@@ -25,30 +27,45 @@ interface Props {
 
 const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
   const items = route?.params?.items || []
+  const bingos = [
+    {type: 'a', color: 'lightyellow', value: null},
+    {type: 'b', color: 'lightyellow', value: null},
+    {type: 'c', color: 'lightyellow', value: null},
+    {type: 'd', color: 'lightyellow', value: null},
+    {type: 'e', color: 'lightyellow', value: null},
+    {type: 'f', color: 'lightyellow', value: null},
+    {type: 'a', color: 'lightyellow', value: null},
+    {type: 'b', color: 'lightyellow', value: null},
+    {type: 'c', color: 'lightyellow', value: null},
+  ]
 
   const handleMenuPress = () => {
     navigation.openDrawer()
   }
 
+  const handleInputPress = () => {
+    navigation.navigate('BingoNewItemsPanel')
+  }
+
   return (
     <SafeAreaView style={styles.bingoPanel}>
-      <View>
+      <View style={styles.header}>
         <Text style={styles.title}>HaBingo</Text>
-        <Button title="menu" onPress={handleMenuPress} />
+        {/* <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress} >
+          <Text>menu</Text>
+        </TouchableOpacity> */}
       </View>
 
       <View style={styles.bingoContainer}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
-          <View style={styles.bingoBlock} key={index}>
-            {items[index] && <Text>{items[index]}</Text>}
-            {!items[index] && (
-              <TouchableOpacity
-                style={styles.inputButton}
-                onPress={() => navigation.navigate('BingoNewItemsPanel')}>
-                <Text style={styles.inputButtonText}>plz input your habit</Text>
+        {bingos.map(({ type, color, value }, index) => (
+          <BingoBox type={type} key={index}>
+            { value && <Text>{ value }</Text> }
+            { !value && 
+              <TouchableOpacity onPress={handleInputPress}>
+                <Text>plz input your habit</Text>
               </TouchableOpacity>
-            )}
-          </View>
+            }
+          </BingoBox>
         ))}
       </View>
     </SafeAreaView>
@@ -56,33 +73,33 @@ const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
 }
 
 const styles = StyleSheet.create({
+  bingoPanel: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#faf5e1'
+  },
   title: {
-    fontSize: 40,
+    fontSize: 36,
     // padding: 20,
     marginBottom: 20,
     fontWeight: 'bold',
   },
-  bingoPanel: {
-    flex: 1,
-    alignItems: 'center',
+  header: {
+    display: 'flex',
+    position: 'relative',
+    // justifyContent: 'center'
+  },
+  menuButton: {
+    // backgroundColor: 'red',
+    // position: 'absolute',
+    // top: 0,
+    // right: 0,
   },
   bingoContainer: {
     display: 'flex',
+    width: 330,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 300,
-    height: 300,
-  },
-  bingoBlock: {
-    width: '33.3%',
-    height: '33.3%',
-    padding: 10,
-    borderWidth: 1,
-    borderRadius: 20,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#ffffff',
   },
   inputButton: {},
   inputButtonText: {
