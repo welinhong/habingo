@@ -7,12 +7,17 @@
  *
  * @format
  */
-import { NavigatorScreenParams } from '@react-navigation/core'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import React, { ComponentType } from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button } from 'react-native'
+import { TabParamList } from '../types'
 
-// TODO: HomeScreen Type 정의하는 것부터 하기
-const HomeScreen = ({ navigation }) => {
+
+interface Props {
+  navigation: BottomTabNavigationProp<TabParamList, 'Statistics'>
+}
+
+const HomeScreen: ComponentType<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.homeScreen}>
       <Text>Hello guys!</Text>

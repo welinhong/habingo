@@ -1,13 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { RouteProp } from '@react-navigation/core'
+import React, { ComponentType } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,12 +15,19 @@ import {
   Button,
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TabParamList } from '../types'
 
-const BingoPanelScreen = ({ route, navigation }) => {
-  const { items = [] } = route.params || {}
+interface Props {
+  route: RouteProp<TabParamList, 'BingoPanel'>
+  navigation: BottomTabNavigationProp<TabParamList, 'BingoPanel'>
+}
+
+const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { items = [] } = route.params
 
   const handleMenuPress = () => {
-    navigation.openDrawer()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    // navigation.openDrawer()
   }
 
   return (

@@ -1,8 +1,13 @@
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, Button, TextInput, SafeAreaView } from 'react-native'
+import { TabParamList } from '../types'
 
-// eslint-disable-next-line react/prop-types
-const BingoNewItemsScreen: React.ComponentType<any> = ({ navigation }) => {
+interface Props {
+  navigation: BottomTabNavigationProp<TabParamList, 'BingoNewItemsPanel'>
+}
+
+const BingoNewItemsScreen: React.FC<Props> = ({ navigation }) => {
   const [value, onChangeText] = useState<string>('')
   const [items, onChangeItems] = useState<string[]>([])
 
@@ -16,6 +21,15 @@ const BingoNewItemsScreen: React.ComponentType<any> = ({ navigation }) => {
   const handleDeleteButtonClick = (index: number) => {
     const newItems = items.filter((item, itemIndex) => itemIndex !== index)
     onChangeItems(newItems)
+  }
+
+  const handleNavigation = () => {
+    navigation.navigate({
+      name: 'BingoPanel',
+      params: {
+        items,
+      },
+    })
   }
 
   return (
@@ -46,17 +60,7 @@ const BingoNewItemsScreen: React.ComponentType<any> = ({ navigation }) => {
 
       <Button
         title="Save"
-        onPress={() => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          // eslint-disable-next-line react/prop-types
-          navigation.navigate({
-            name: 'BingoPanel',
-            params: {
-              items,
-            },
-          })
-        }}
+        onPress={handleNavigation}
       />
     </SafeAreaView>
   )
