@@ -1,23 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { RouteProp } from '@react-navigation/core'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import React, { ComponentType } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
-  TextInput,
-  Button,
+  Pressable,
 } from 'react-native'
-import { FlingGestureHandler, TouchableOpacity } from 'react-native-gesture-handler'
-import styled from 'styled-components'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import BingoBox from '../components/atoms/BingoBox'
+import theme from '../styles/theme'
 import { TabParamList } from '../types'
 
 interface Props {
@@ -27,7 +23,8 @@ interface Props {
 
 const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
   const items = route?.params?.items || []
-  const bingos = [
+  const userName = 'Welin'
+  const [bingos, setBingos] = useState([
     {type: 'a', color: 'lightyellow', value: null},
     {type: 'b', color: 'lightyellow', value: null},
     {type: 'c', color: 'lightyellow', value: null},
@@ -37,67 +34,124 @@ const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
     {type: 'a', color: 'lightyellow', value: null},
     {type: 'b', color: 'lightyellow', value: null},
     {type: 'c', color: 'lightyellow', value: null},
-  ]
+  ])
+
+  // TODO: API 추가하면 아래 effect 제거하기
+  useEffect(() => {
+    if(!items.length) return
+
+    setBingos((bingos) => {
+      const newBingos = bingos.map((bingo, index) => ({
+        ...bingo,
+        value: items[index] || null
+      }))
+      return newBingos
+    })
+  }, [items])
 
   const handleMenuPress = () => {
     navigation.openDrawer()
   }
 
   const handleInputPress = () => {
+    navigateToAddItemsPage()
+  }
+
+  const handleFillupPress = () => {
+    navigateToAddItemsPage()
+  }
+
+  const navigateToAddItemsPage = () => {
     navigation.navigate('BingoNewItemsPanel')
   }
 
   return (
     <SafeAreaView style={styles.bingoPanel}>
-      <View style={styles.header}>
-        <Text style={styles.title}>HaBingo</Text>
-        {/* <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress} >
-          <Text>menu</Text>
-        </TouchableOpacity> */}
-      </View>
+      <View style={styles.bingoScreen}>
+        <View style={styles.header}>
+          <Text style={styles.title}>HaBingo</Text>
+          {/* <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress} >
+            <Text>menu</Text>
+          </TouchableOpacity> */}
+        </View>
 
-      <View style={styles.bingoContainer}>
-        {bingos.map(({ type, color, value }, index) => (
-          <BingoBox type={type} key={index}>
-            { value && <Text>{ value }</Text> }
-            { !value && 
-              <TouchableOpacity onPress={handleInputPress}>
-                <Text>plz input your habit</Text>
-              </TouchableOpacity>
-            }
-          </BingoBox>
-        ))}
+        <View style={styles.introMessageBox}>
+          <Text style={styles.introMessage}>
+            Hi {userName},
+          </Text>
+          <Text style={styles.introMessage}>
+            Lets start!
+          </Text>
+        </View>
+
+        <Pressable style={styles.fillupButton} onPress={handleFillupPress}>
+          <Text style={styles.fillupTitle}>Fill up your bingo.</Text>
+          <Text style={styles.fillupMessage}>You can start the game by completeing nine.</Text>
+        </Pressable>
+
+        <View style={styles.bingoContainer}>
+          {bingos.map(({ type, color, value }, index) => (
+            <BingoBox type={type} key={index}>
+              { value && <Text>{ value }</Text> }
+              { !value && 
+                <TouchableOpacity onPress={handleInputPress}>
+                  <Text>plz input your habit</Text>
+                </TouchableOpacity>
+              }
+            </BingoBox>
+          ))}
+        </View>
       </View>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
+  bingoScreen: {
+    padding: 15,
+  },
   bingoPanel: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#faf5e1'
+    backgroundColor: '#faf5e1',
   },
   title: {
+    textAlign: 'center',
     fontSize: 36,
-    // padding: 20,
-    marginBottom: 20,
     fontWeight: 'bold',
+    marginBottom: 20,
   },
   header: {
     display: 'flex',
-    position: 'relative',
-    // justifyContent: 'center'
+    justifyContent: 'center'
   },
   menuButton: {
-    // backgroundColor: 'red',
     // position: 'absolute',
     // top: 0,
     // right: 0,
   },
+  introMessageBox: {
+    marginBottom: 15,
+  },
+  introMessage: {
+    fontSize: 24,
+    fontWeight: 'bold'
+  },
+  fillupButton: {
+    width: '100%',
+    padding: 15,
+    marginBottom: 15,
+    backgroundColor: theme.color.yellow,
+  },
+  fillupTitle: {
+    fontSize: theme.typography.h3,
+    marginBottom: 5
+  },
+  fillupMessage: {
+    fontSize: theme.typography.body2
+  },
   bingoContainer: {
     display: 'flex',
-    width: 330,
+    width: 345,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },

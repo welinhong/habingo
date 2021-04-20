@@ -22,8 +22,8 @@ const borderRadius = '60px'
 const Container = styled.View<Props>`
   display: flex;
   justify-content: center;
-  width: 110px;
-  height: 110px;
+  width: 115px;
+  height: 115px;
   padding: 10px;
   border: 1px solid #000000;
 

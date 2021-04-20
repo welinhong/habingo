@@ -9,8 +9,8 @@ export default {
   typography: {
     h1: 'font-weight: bold; font-size: 24px',
     h2: 'font-weight: bold; font-size: 20px',
-    h3: 'font-size: 20px',
-    body1: 'font-size: 16px',
-    body2: 'font-size: 14px',
+    h3: 20,
+    body1: 16,
+    body2: 14,
   },
 }
