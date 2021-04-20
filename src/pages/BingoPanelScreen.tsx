@@ -95,7 +95,7 @@ const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
               { value && <Text>{ value }</Text> }
               { !value && 
                 <TouchableOpacity onPress={handleInputPress}>
-                  <Text>plz input your habit</Text>
+                  <Text style={styles.placeholder}>plz input your habit</Text>
                 </TouchableOpacity>
               }
             </BingoBox>
@@ -155,7 +155,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  inputButton: {},
+  placeholder: {
+    color: 'grey'
+  },
   inputButtonText: {
     color: '#666666',
   },
