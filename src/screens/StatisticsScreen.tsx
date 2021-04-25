@@ -1,12 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import React, { ComponentType } from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, Button } from 'react-native'
@@ -20,9 +11,8 @@ interface Props {
 const HomeScreen: ComponentType<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.homeScreen}>
-      <Text>Hello guys!</Text>
-      <Text>This is Habi(t)go.</Text>
-      <Button title="Let's do Bingo!" onPress={() => navigation.navigate('BingoPanel')} />
+      <Text>Statistics</Text>
+      <Button title="Go To Main Screen" onPress={() => navigation.navigate('BingoPanel')} />
     </SafeAreaView>
   )
 }
