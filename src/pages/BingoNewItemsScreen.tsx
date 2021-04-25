@@ -1,7 +1,7 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, Button, TextInput, SafeAreaView } from 'react-native'
-import theme from '../styles/theme'
+import { theme } from '../styles/theme'
 import { TabParamList } from '../types'
 
 interface Props {
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     width: '100%',
-
   },
   textInput: {
     flex: 1,

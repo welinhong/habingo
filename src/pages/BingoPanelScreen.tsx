@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import BingoBox from '../components/atoms/BingoBox'
-import theme from '../styles/theme'
+import { theme } from '../styles/theme'
 import { TabParamList } from '../types'
 
 interface Props {
@@ -143,11 +143,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.color.yellow,
   },
   fillupTitle: {
-    fontSize: theme.typography.h3,
+    ...theme.typography.h3,
     marginBottom: 5
   },
   fillupMessage: {
-    fontSize: theme.typography.body2
+    ...theme.typography.body2
   },
   bingoContainer: {
     display: 'flex',
