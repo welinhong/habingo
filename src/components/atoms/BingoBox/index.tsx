@@ -25,9 +25,9 @@ const Container = styled.View<Props>`
   width: 115px;
   height: 115px;
   padding: 10px;
-  border: 1px solid #000000;
+  background-color: #ffffff;
 
-  ${(props: StyledProps) =>  {
+  ${(props) =>  {
     switch(props.type) {
       case 'a':
         return css`
