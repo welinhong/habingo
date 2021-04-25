@@ -7,3 +7,7 @@ interface ITheme {
     normal: string
   }
 }
+declare module '*.svg' {
+  const content: any
+  export default content
+}

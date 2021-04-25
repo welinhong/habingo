@@ -15,6 +15,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import BingoBox from '../components/atoms/BingoBox'
 import { theme } from '../styles/theme'
 import { TabParamList } from '../types'
+import MenuIcon from '../../assets/icons/menu.svg'
 
 interface Props {
   route: RouteProp<TabParamList, 'BingoPanel'>
@@ -69,10 +70,12 @@ const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
     <SafeAreaView style={styles.bingoPanel}>
       <View style={styles.bingoScreen}>
         <View style={styles.header}>
-          <Text style={styles.title}>HaBingo</Text>
-          {/* <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress} >
-            <Text>menu</Text>
-          </TouchableOpacity> */}
+          <Text style={styles.title}>
+            HaBingo
+            <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress} >
+              <MenuIcon />
+            </TouchableOpacity>
+          </Text>
         </View>
 
         <View style={styles.introMessageBox}>
