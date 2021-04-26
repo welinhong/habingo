@@ -14,15 +14,15 @@ import {
 } from 'react-native'
 import BingoBox from '../components/atoms/BingoBox'
 import { theme } from '../styles/theme'
-import { TabParamList } from '../types'
+import { BingoStackList } from '../types'
 import MenuIcon from '../../assets/icons/menu.svg'
 
 interface Props {
-  route: RouteProp<TabParamList, 'BingoPanel'>
-  navigation: DrawerNavigationProp<TabParamList, 'BingoPanel'>
+  route: RouteProp<BingoStackList, 'BingoBoard'>
+  navigation: DrawerNavigationProp<BingoStackList, 'BingoBoard'>
 }
 
-const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
+const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const items = route?.params?.items || []
   const userName = 'Welin'
   const [bingos, setBingos] = useState([
@@ -63,12 +63,12 @@ const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
   }
 
   const navigateToAddItemsPage = () => {
-    navigation.navigate('BingoNewItemsPanel')
+    navigation.navigate('BingoAddForm')
   }
 
   return (
-    <SafeAreaView style={styles.bingoPanel}>
-      <View style={styles.bingoScreen}>
+    <SafeAreaView style={styles.BingoBoardScreenWrap}>
+      <View style={styles.BingoBoardScreen}>
         <View style={styles.header}>
           <Text style={styles.title}>
             HaBingo
@@ -110,10 +110,10 @@ const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  bingoScreen: {
+  BingoBoardScreen: {
     padding: 15,
   },
-  bingoPanel: {
+  BingoBoardScreenWrap: {
     flex: 1,
     backgroundColor: '#faf5e1',
   },
@@ -167,4 +167,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default BingoPanelScreen
+export default BingoBoardScreen

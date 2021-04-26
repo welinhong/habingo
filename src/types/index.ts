@@ -11,11 +11,11 @@ export type DrawerParamList = {
 }
 
 export type TabParamList = {
-  BingoPanel: undefined
-  BingoNewItemsPanel: undefined
+  BingoStack: NavigatorScreenParams<BingoStackList>
   Statistics: undefined
 }
 
-export type BingoPanelParamList = {
-  items: string[]
+export type BingoStackList = {
+  BingoBoard: undefined
+  BingoAddForm: undefined
 }

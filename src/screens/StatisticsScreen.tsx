@@ -12,7 +12,7 @@ const HomeScreen: ComponentType<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.homeScreen}>
       <Text>Statistics</Text>
-      <Button title="Go To Main Screen" onPress={() => navigation.navigate('BingoPanel')} />
+      <Button title="Go To Main Screen" onPress={() => navigation.navigate('BingoStack')} />
     </SafeAreaView>
   )
 }
