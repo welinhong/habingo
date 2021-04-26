@@ -10,8 +10,8 @@ import {
   View,
   Text,
   Pressable,
+  TouchableOpacity
 } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import BingoBox from '../components/atoms/BingoBox'
 import { theme } from '../styles/theme'
 import { TabParamList } from '../types'
@@ -72,10 +72,10 @@ const BingoPanelScreen: React.FC<Props> = ({ route, navigation }) => {
         <View style={styles.header}>
           <Text style={styles.title}>
             HaBingo
-            <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress} >
-              <MenuIcon />
-            </TouchableOpacity>
           </Text>
+          <Pressable style={styles.menuButton} onPress={handleMenuPress}>
+            <MenuIcon />
+          </Pressable>
         </View>
 
         <View style={styles.introMessageBox}>
@@ -117,20 +117,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#faf5e1',
   },
-  title: {
-    textAlign: 'center',
-    fontSize: 36,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   header: {
     display: 'flex',
-    justifyContent: 'center'
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 36,
+    fontWeight: 'bold',
   },
   menuButton: {
-    // position: 'absolute',
-    // top: 0,
-    // right: 0,
+    position: 'absolute',
+    right: 0,
   },
   introMessageBox: {
     marginBottom: 15,
