@@ -3,6 +3,7 @@
     "prefix": ["rc", "ccc"],
     "description": "Create New Empty React Component",
     "body": [
+      "import React from 'react'",
       "import { StyleSheet } from 'react-native'",
       "",
       "export interface Props {}",
