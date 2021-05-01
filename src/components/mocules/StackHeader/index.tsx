@@ -21,7 +21,10 @@ const Header: React.FC<Props> = ({ title, onPress }) => {
 
 const styles = StyleSheet.create({
   stackHeader: {
-    padding: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   backButton: {
     alignItems: 'center',
