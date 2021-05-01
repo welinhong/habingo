@@ -4,13 +4,14 @@ import { theme } from '../../../styles/theme'
 
 export interface Props {
   value: string
+  placeholder?: string
   onChange?: (text: string) => void
 }
 
-const TextField: React.FC<Props> = ({ value, onChange }) => {
+const TextField: React.FC<Props> = ({ value, placeholder, onChange }) => {
   return (
     <>
-      <TextInput value={value} style={styles.textField} onChangeText={onChange} />
+      <TextInput value={value} style={styles.textField} placeholder={placeholder} onChangeText={onChange} />
     </>
   )
 }
@@ -18,11 +19,9 @@ const TextField: React.FC<Props> = ({ value, onChange }) => {
 const styles = StyleSheet.create({
   textField: {
     backgroundColor: theme.color.white,
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
+    padding: 20,
     borderRadius: 100,
+    fontSize: 16,
   }
 })
 
