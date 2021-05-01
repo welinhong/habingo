@@ -55,16 +55,12 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   }
 
   const handleInputPress = () => {
-    navigateToAddItemsPage()
+    showKeyboard()
   }
 
-  const handleFillupPress = () => {
-    navigateToAddItemsPage()
-  }
-
-  const navigateToAddItemsPage = () => {
-    navigation.navigate('BingoAddForm')
-  }
+  // TODO: 키보드 뜨고
+  // 입력완료하면 해당 빙고 아이템에 텍스트가 붙는다
+  const showKeyboard = () => {}
 
   return (
     <SafeAreaView style={styles.BingoBoardScreenWrap}>
@@ -86,11 +82,6 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
             Lets start!
           </Text>
         </View>
-
-        <Pressable style={styles.fillupButton} onPress={handleFillupPress}>
-          <Text style={styles.fillupTitle}>Fill up your bingo.</Text>
-          <Text style={styles.fillupMessage}>You can start the game by completeing nine.</Text>
-        </Pressable>
 
         <View style={styles.bingoContainer}>
           {bingos.map(({ type, color, value }, index) => (
@@ -139,19 +130,6 @@ const styles = StyleSheet.create({
   introMessage: {
     fontSize: 24,
     fontWeight: 'bold'
-  },
-  fillupButton: {
-    width: '100%',
-    padding: 15,
-    marginBottom: 15,
-    backgroundColor: theme.color.yellow,
-  },
-  fillupTitle: {
-    ...theme.typography.h3,
-    marginBottom: 5
-  },
-  fillupMessage: {
-    ...theme.typography.body2
   },
   bingoContainer: {
     display: 'flex',
