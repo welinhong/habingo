@@ -3,17 +3,17 @@
 // @ts-ignore
 import { RouteProp } from '@react-navigation/core'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
   View,
   Text,
   Pressable,
-  TouchableOpacity
+  TextInput,
+  Button
 } from 'react-native'
 import BingoBox from '../components/atoms/BingoBox'
-import { theme } from '../styles/theme'
 import { BingoStackList } from '../types'
 import MenuIcon from '../../assets/icons/menu.svg'
 
@@ -23,8 +23,10 @@ interface Props {
 }
 
 const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
-  const items = route?.params?.items || []
+  const [start, setStart] = useState(false)
+
   const userName = 'Welin'
+
   const [bingos, setBingos] = useState([
     {type: 'a', color: 'lightyellow', value: null},
     {type: 'b', color: 'lightyellow', value: null},
@@ -37,30 +39,27 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     {type: 'c', color: 'lightyellow', value: null},
   ])
 
-  // TODO: API 추가하면 아래 effect 제거하기
-  useEffect(() => {
-    if(!items.length) return
-
-    setBingos((bingos) => {
-      const newBingos = bingos.map((bingo, index) => ({
-        ...bingo,
-        value: items[index] || null
-      }))
-      return newBingos
-    })
-  }, [items])
-
   const handleMenuPress = () => {
     navigation.openDrawer()
   }
 
-  const handleInputPress = () => {
-    showKeyboard()
+  const handleStartButtonPress = () => {
+    setStart(!start)
   }
 
-  // TODO: 키보드 뜨고
-  // 입력완료하면 해당 빙고 아이템에 텍스트가 붙는다
-  const showKeyboard = () => {}
+  const handleTextChange = (index: number) => (text: string) => {
+    const value = text
+    
+    setBingos((prevBingos) => {
+      const updated = prevBingos.map((bingo, bingoIndex) => {
+        return index === bingoIndex ? {
+          ...bingo,
+          value,
+        }: {...bingo}
+      })
+      return updated
+    })
+  }
 
   return (
     <SafeAreaView style={styles.BingoBoardScreenWrap}>
@@ -82,19 +81,25 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
             Lets start!
           </Text>
         </View>
-
         <View style={styles.bingoContainer}>
           {bingos.map(({ type, color, value }, index) => (
             <BingoBox type={type} key={index}>
-              { value && <Text>{ value }</Text> }
-              { !value && 
-                <TouchableOpacity onPress={handleInputPress}>
-                  <Text style={styles.placeholder}>plz input your habit</Text>
-                </TouchableOpacity>
-              }
+              { start && <Text>{value}</Text> }
+              { !start && (
+                <TextInput 
+                  value={value} 
+                  placeholder="plz input your habit" 
+                  multiline 
+                  onChangeText={handleTextChange(index)}
+                />
+              ) }
             </BingoBox>
           ))}
         </View>
+
+        <Button title={start ? "중지" : "시작하기"} onPress={handleStartButtonPress} />
+        {start && <Text style={styles.messege}>시작되었습니다</Text>}
+
       </View>
     </SafeAreaView>
   )
@@ -143,6 +148,9 @@ const styles = StyleSheet.create({
   inputButtonText: {
     color: '#666666',
   },
+  messege: {
+    textAlign: 'center'
+  }
 })
 
 export default BingoBoardScreen
