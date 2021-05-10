@@ -3,7 +3,7 @@
 // @ts-ignore
 import { RouteProp } from '@react-navigation/core'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -24,6 +24,8 @@ interface Props {
 
 const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const [start, setStart] = useState(false)
+  const [selectedBingobox, setSelectedBingobox] = useState(null)
+  const [isAllBingoFilled, setIsAllBingoFilled] = useState(false)
 
   const userName = 'Welin'
 
@@ -61,6 +63,16 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     })
   }
 
+  const handleLongPress = (index: number) => {
+    setSelectedBingobox(index)
+  }
+
+  // 모든 빙고값이 다 채워져 있는지 확인
+  useEffect(() => {
+    const isFilled = bingos.every((bingo) => bingo.value)
+    setIsAllBingoFilled(isFilled)
+  }, [bingos])
+
   return (
     <SafeAreaView style={styles.BingoBoardScreenWrap}>
       <View style={styles.BingoBoardScreen}>
@@ -83,23 +95,24 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
         </View>
         <View style={styles.bingoContainer}>
           {bingos.map(({ type, color, value }, index) => (
-            <BingoBox type={type} key={index}>
-              { start && <Text>{value}</Text> }
-              { !start && (
-                <TextInput 
-                  value={value} 
-                  placeholder="plz input your habit" 
-                  multiline 
-                  onChangeText={handleTextChange(index)}
-                />
-              ) }
-            </BingoBox>
+            <Pressable key={index} onLongPress={() => handleLongPress(index)}>
+              <BingoBox type={type} highlight={selectedBingobox === index}>
+                { start && <Text>{value}</Text> }
+                { !start && (
+                  <TextInput
+                    value={value} 
+                    placeholder="plz input your habit" 
+                    multiline 
+                    onChangeText={handleTextChange(index)}
+                  />
+                ) }
+              </BingoBox>
+            </Pressable>
           ))}
         </View>
 
-        <Button title={start ? "중지" : "시작하기"} onPress={handleStartButtonPress} />
+        {isAllBingoFilled && <Button title={start ? "중지" : "시작하기"} onPress={handleStartButtonPress} />}
         {start && <Text style={styles.messege}>시작되었습니다</Text>}
-
       </View>
     </SafeAreaView>
   )
