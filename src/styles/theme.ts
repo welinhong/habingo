@@ -7,9 +7,10 @@ const palette = {
   deepyellow: '#fdd400',
   white: '#ffffff',
   black: '#000000',
+  gray: '#333333',
 }
 
-export const theme = {
+export const defaultTheme = {
   color: {
     background: palette.lightyellow,
     foreground: palette.white,
@@ -43,11 +44,11 @@ export const theme = {
   },
 }
 
-export const darkTheme = {
-  ...theme,
+export const theme = {
+  ...defaultTheme,
   color: {
-    ...theme.color,
-    background: palette.black,
+    ...defaultTheme.color,
+    background: palette.gray,
     foreground: palette.white,
     mainFont: palette.white,
   },

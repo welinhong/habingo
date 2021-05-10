@@ -32,6 +32,7 @@ module.exports = {
     '@typescript-eslint/no-unsafe-call': 0,
     '@typescript-eslint/no-unsafe-return': 0,
     'react/prop-types': 0,
+    'react/display-name': 0,
   },
   settings: {
     react: {
