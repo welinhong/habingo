@@ -13,6 +13,7 @@ export const theme = {
   color: {
     background: palette.lightyellow,
     foreground: palette.white,
+    mainFont: palette.black,
     ...palette,
   },
   spacing: {
@@ -44,9 +45,10 @@ export const theme = {
 
 export const darkTheme = {
   ...theme,
-  colors: {
+  color: {
     ...theme.color,
     background: palette.black,
     foreground: palette.white,
+    mainFont: palette.white,
   },
 }

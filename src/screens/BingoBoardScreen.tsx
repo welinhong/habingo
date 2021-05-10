@@ -16,6 +16,7 @@ import {
 import BingoBox from '../components/atoms/BingoBox'
 import { BingoStackList } from '../types'
 import MenuIcon from '../../assets/icons/menu.svg'
+import { darkTheme } from '../styles/theme'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
   },
   BingoBoardScreenWrap: {
     flex: 1,
-    backgroundColor: '#faf5e1',
+    backgroundColor: darkTheme.color.background,
   },
   header: {
     display: 'flex',
@@ -137,6 +138,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 36,
     fontWeight: 'bold',
+    color: darkTheme.color.mainFont,
   },
   menuButton: {
     position: 'absolute',
@@ -147,7 +149,8 @@ const styles = StyleSheet.create({
   },
   introMessage: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: darkTheme.color.mainFont,
   },
   bingoContainer: {
     display: 'flex',
