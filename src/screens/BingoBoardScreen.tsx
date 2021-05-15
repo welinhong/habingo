@@ -18,6 +18,7 @@ import { BingoStackList } from '../types'
 import MenuIcon from '../../assets/icons/menu.svg'
 import { theme } from '../styles/theme'
 import MessegeBox from '../components/atoms/MessegeBox'
+import styled, { css } from 'styled-components/native'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -108,19 +109,17 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
 
         <View style={styles.bingoContainer}>
           {bingos.map(({ type, color, value }, index) => (
-            <Pressable key={index} onLongPress={() => handleLongPress(index)}>
-              <BingoBox type={type} highlight={selectedBingobox === index}>
-                { start && <Text>{value}</Text> }
-                { !start && (
-                  <TextInput
-                    value={value} 
-                    placeholder="plz input your habit" 
-                    multiline 
-                    onChangeText={handleTextChange(index)}
-                  />
-                ) }
-              </BingoBox>
-            </Pressable>
+            <BingoBox type={type} highlight={selectedBingobox === index} key={index} onLongPress={() => handleLongPress(index)}>
+              { start && <Text>{value}</Text> }
+              { !start && (
+                <TextInput
+                  value={value} 
+                  placeholder="plz input your habit" 
+                  multiline 
+                  onChangeText={handleTextChange(index)}
+                />
+              ) }
+            </BingoBox>
           ))}
         </View>
 

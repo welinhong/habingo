@@ -1,26 +1,24 @@
-import { ThemeProvider } from '@react-navigation/native'
 import React from 'react'
-import { StyleSheet, Text } from 'react-native'
-import { StyledProps } from 'styled-components'
 import styled, { css } from 'styled-components/native'
 import {theme} from '../../../styles/theme'
 
 export interface Props {
   type: string
   highlight?: boolean
+  onPress?: () => void
+  onLongPress?: () => void
 }
 
-const BingoBox: React.FC<Props> = ({ type, highlight = false, children }) => {
+const BingoBox: React.FC<Props> = ({ type, highlight = false, onPress, onLongPress, children }) => {
   return (
-    <Container type={type} highlight={highlight}>
+    <StyledPressableContainer type={type} highlight={highlight} onPress={onPress} onLongPress={onLongPress}>
       { children }
-    </Container>
+    </StyledPressableContainer>
   )
 }
 
-
 const borderRadius = '60px'
-const Container = styled.View<Props>`
+const StyledPressableContainer = styled.Pressable<Props>`
   display: flex;
   justify-content: center;
   width: 115px;
