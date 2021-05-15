@@ -40,6 +40,7 @@ export const defaultTheme = {
     },
     body2: {
       fontSize: 14,
+      fontWeight: 400,
     },
   },
 }

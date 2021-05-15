@@ -17,6 +17,7 @@ import BingoBox from '../components/atoms/BingoBox'
 import { BingoStackList } from '../types'
 import MenuIcon from '../../assets/icons/menu.svg'
 import { theme } from '../styles/theme'
+import MessegeBox from '../components/atoms/MessegeBox'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -27,6 +28,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const [start, setStart] = useState(false)
   const [selectedBingobox, setSelectedBingobox] = useState(null)
   const [isAllBingoFilled, setIsAllBingoFilled] = useState(false)
+  const [unfilledBingoNumber, setUnFilledBingoNumber] = useState(0)
 
   const userName = 'Welin'
 
@@ -68,10 +70,14 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     setSelectedBingobox(index)
   }
 
+
   // 모든 빙고값이 다 채워져 있는지 확인
   useEffect(() => {
     const isFilled = bingos.every((bingo) => bingo.value)
     setIsAllBingoFilled(isFilled)
+
+    const unfilledBingoNumbers = bingos.filter((bingo) => !bingo.value).length
+    setUnFilledBingoNumber(unfilledBingoNumbers)
   }, [bingos])
 
   return (
@@ -94,6 +100,12 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
             Lets start!
           </Text>
         </View>
+
+        <MessegeBox
+          title="Fill up your bingo."
+          messege={`You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
+        />
+
         <View style={styles.bingoContainer}>
           {bingos.map(({ type, color, value }, index) => (
             <Pressable key={index} onLongPress={() => handleLongPress(index)}>
