@@ -17,7 +17,7 @@ import BingoBox from '../components/atoms/BingoBox'
 import { BingoStackList } from '../types'
 import MenuIcon from '../../assets/icons/menu.svg'
 import { theme } from '../styles/theme'
-import MessegeBox from '../components/atoms/MessegeBox'
+import MessegeBox, { MessegeBoxColor } from '../components/atoms/MessegeBox'
 import styled, { css } from 'styled-components/native'
 
 interface Props {
@@ -102,10 +102,13 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
           </Text>
         </View>
 
-        <MessegeBox
-          title="Fill up your bingo."
-          messege={`You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
-        />
+        { !start && (
+          <MessegeBox
+            color={isAllBingoFilled ? MessegeBoxColor.pink : MessegeBoxColor.yellow}
+            title={isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.'}
+            messege={isAllBingoFilled ? 'You can start the game by clicking this box' : `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
+          />
+        )}
 
         <View style={styles.bingoContainer}>
           {bingos.map(({ type, color, value }, index) => (
