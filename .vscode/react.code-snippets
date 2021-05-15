@@ -10,10 +10,10 @@
       "export interface Props {}",
       "",
       "const $1: React.FC<Props> = () => {",
-      "  return <Container></Container>",
+      "  return <StyledContainer></StyledContainer>",
       "}",
       "",
-      "const Container = styled.View<Props>``",
+      "const StyledContainer = styled.View<Props>``",
       "",
       "export default $1",
       ""
