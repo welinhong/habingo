@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { theme } from '@/src/styles/theme'
-import PersonIcon from '@/assets/icons/person.svg'
+import { theme } from '../../../styles/theme'
+import PersonIcon from '../../../../assets/icons/person.svg'
 
 export interface Props {
   title: string

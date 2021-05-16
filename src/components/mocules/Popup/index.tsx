@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import CloseIcon from '@/assets/icons/close.svg'
+import CloseIcon from '../../../../assets/icons/close.svg'
 
 export interface Props {
   open: boolean
