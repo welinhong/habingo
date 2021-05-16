@@ -8,6 +8,7 @@ const palette = {
   white: '#ffffff',
   black: '#000000',
   gray: '#333333',
+  lightgray: '#E0E0E0',
 }
 
 export const defaultTheme = {

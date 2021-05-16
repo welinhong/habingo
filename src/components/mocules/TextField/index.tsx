@@ -1,28 +1,44 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import styled, { css } from 'styled-components/native'
+import Button, { ButtonColor } from '../../atoms/Button'
 import { theme } from '../../../styles/theme'
 
 export interface Props {
   value: string
   placeholder?: string
+  isButton?: boolean
+  buttonTitle?: string
+  buttonColor?: ButtonColor
   onChange?: (text: string) => void
+  onPress?: () => void
 }
 
-const TextField: React.FC<Props> = ({ value, placeholder, onChange }) => {
+const TextField: React.FC<Props> = ({ value, placeholder, isButton = false, buttonTitle, buttonColor, onPress, onChange }) => {
   return (
-    <>
-      <TextInput value={value} style={styles.textField} placeholder={placeholder} onChangeText={onChange} />
-    </>
+    <StyledContainer isButton={isButton}>
+      <StyledInput value={value} placeholder={placeholder} onChangeText={onChange} />
+      {isButton && buttonTitle && onPress && (
+        <Button title={buttonTitle} color={buttonColor} onPress={onPress} />
+      )}
+    </StyledContainer>
   )
 }
 
-const styles = StyleSheet.create({
-  textField: {
-    backgroundColor: theme.color.white,
-    padding: 20,
-    borderRadius: 100,
-    fontSize: 16,
-  }
-})
+interface ContainerProps {
+  isButton: boolean
+}
+
+const StyledContainer = styled.View<ContainerProps>`
+  display: flex;
+  flex-direction: row;
+  padding: ${({ isButton }) => isButton ? '9px 9px 9px 20px' : '20px'};
+  border-radius: 100px;
+  background-color: ${theme.color.white};
+`
+
+const StyledInput = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+`
 
 export default TextField

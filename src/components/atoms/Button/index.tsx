@@ -14,7 +14,8 @@ export enum ButtonColor {
   blue = 'blue',
   pink = 'pink',
   deepyellow = 'deepyellow',
-  gray = 'gray'
+  gray = 'gray',
+  lightgray = 'lightgray'
 }
 
 const Button: React.FC<Props> = ({ title, color, onPress }) => {
