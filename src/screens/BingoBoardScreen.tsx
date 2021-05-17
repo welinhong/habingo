@@ -11,14 +11,17 @@ import {
   Text,
   Pressable,
   TextInput,
-  Button
 } from 'react-native'
-import BingoBox from '../components/atoms/BingoBox'
-import { BingoStackList } from '../types'
+import { BingoStackList } from '../../src/types'
+import { theme } from '../../src/styles/theme'
+import BingoBox from '../../src/components/atoms/BingoBox'
+import MessegeBox, { MessegeBoxColor } from '../../src/components/atoms/MessegeBox'
+import DashedButton from '../../src/components/mocules/DashedButton'
+import TextField from '../../src/components/mocules/TextField'
 import MenuIcon from '../../assets/icons/menu.svg'
-import { theme } from '../styles/theme'
-import MessegeBox, { MessegeBoxColor } from '../components/atoms/MessegeBox'
-import styled, { css } from 'styled-components/native'
+import Popup from '../../src/components/mocules/Popup'
+import Button, { ButtonColor } from '../../src/components/atoms/Button'
+import styled from 'styled-components/native'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -30,6 +33,9 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const [selectedBingobox, setSelectedBingobox] = useState(null)
   const [isAllBingoFilled, setIsAllBingoFilled] = useState(false)
   const [unfilledBingoNumber, setUnFilledBingoNumber] = useState(0)
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [friendCode, setFriendCode] = useState('')
+  const [invitationCode, setInvitationCode] = useState('welinInivation') // TODO: API 확인 후 default value 수정하기
 
   const userName = 'Welin'
 
@@ -67,10 +73,23 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     })
   }
 
-  const handleLongPress = (index: number) => {
-    setSelectedBingobox(index)
+  // 친구 추가 버튼 - 팝업을 띄운다
+  const handleDashedButtonPress = () => {
+    setIsPopupOpen(true)
   }
 
+  // 팝업 닫기
+  const handleClose = () => {
+    setIsPopupOpen(false)
+  }
+
+  const handleFriendCodeChange = (text: string) => {
+    setFriendCode(text)
+  }
+
+  const handleButtonPress = () => {}
+  
+  const handleEnterPress = () => {}
 
   // 모든 빙고값이 다 채워져 있는지 확인
   useEffect(() => {
@@ -82,6 +101,32 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   }, [bingos])
 
   return (
+    <>
+    <Popup title="Add your friend" open={isPopupOpen} onClose={handleClose}>
+      <TextField
+        value={friendCode}
+        placeholder="Enter friend's code"
+        onChange={handleFriendCodeChange}
+        isButton={true}
+        buttonTitle="Enter"
+        buttonColor={friendCode ? ButtonColor.deepyellow : ButtonColor.lightgray}
+        onPress={handleEnterPress}
+      />
+      <StyledDivider>
+        <StyledOrText>or</StyledOrText>
+      </StyledDivider>
+
+      <StyledCodeContentWrapper>
+        <StyledCodeContent>
+          <StyledTitleText>Code: {invitationCode}</StyledTitleText>
+          <StyledDesciptionText>
+            코드를 복사해 함께 할 친구에게 공유해주세요.
+          </StyledDesciptionText>
+        </StyledCodeContent>
+        <Button title="Copy" color={ButtonColor.blue} onPress={handleButtonPress}></Button>
+      </StyledCodeContentWrapper>
+    </Popup>
+
     <SafeAreaView style={styles.BingoBoardScreenWrap}>
       <View style={styles.BingoBoardScreen}>
         <View style={styles.header}>
@@ -106,17 +151,19 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
           <MessegeBox
             color={isAllBingoFilled ? MessegeBoxColor.pink : MessegeBoxColor.yellow}
             title={isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.'}
-            messege={isAllBingoFilled ? 'You can start the game by clicking this box' : `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
+            messege={isAllBingoFilled ? 'If you want to start, click this box 👆' : `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
+            onPress={handleStartButtonPress}
           />
         )}
+        {/* {isAllBingoFilled && <Button title={start ? "중지" : "시작하기"} onPress={handleStartButtonPress} />} */}
 
         <View style={styles.bingoContainer}>
           {bingos.map(({ type, color, value }, index) => (
-            <BingoBox type={type} highlight={selectedBingobox === index} key={index} onLongPress={() => handleLongPress(index)}>
+            <BingoBox type={type} highlight={selectedBingobox === index} key={index}>
               { start && <Text>{value}</Text> }
               { !start && (
                 <TextInput
-                  value={value} 
+                  value={value}
                   placeholder="plz input your habit" 
                   multiline 
                   onChangeText={handleTextChange(index)}
@@ -126,10 +173,14 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
           ))}
         </View>
 
-        {isAllBingoFilled && <Button title={start ? "중지" : "시작하기"} onPress={handleStartButtonPress} />}
-        {start && <Text style={styles.messege}>시작되었습니다</Text>}
+        <DashedButton
+          title="+ add your friend" 
+          color={theme.color.white}
+          onPress={handleDashedButtonPress}
+        />
       </View>
     </SafeAreaView>
+    </>
   )
 }
 
@@ -171,6 +222,7 @@ const styles = StyleSheet.create({
     width: 345,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginBottom: 16,
   },
   placeholder: {
     color: 'grey'
@@ -182,5 +234,32 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 })
+
+const StyledDivider = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+`
+
+const StyledOrText = styled.Text``
+
+const StyledCodeContentWrapper = styled.View`
+  display: flex;
+  flex-direction: row;
+`
+const StyledCodeContent = styled.View`
+  flex: 1;
+`
+const StyledTitleText = styled.Text`
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 5px;
+`
+const StyledDesciptionText = styled.Text`
+  font-size: 14px;
+  font-weight: 400;
+`
 
 export default BingoBoardScreen
