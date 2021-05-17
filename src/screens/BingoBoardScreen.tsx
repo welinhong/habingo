@@ -22,6 +22,7 @@ import MenuIcon from '../../assets/icons/menu.svg'
 import Popup from '../../src/components/mocules/Popup'
 import Button, { ButtonColor } from '../../src/components/atoms/Button'
 import styled from 'styled-components/native'
+import Clipboard from '@react-native-community/clipboard'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -87,7 +88,9 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     setFriendCode(text)
   }
 
-  const handleButtonPress = () => {}
+  const handleCopyPress = () => {
+    Clipboard.setString(invitationCode);
+  }
   
   const handleEnterPress = () => {}
 
@@ -123,7 +126,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
             코드를 복사해 함께 할 친구에게 공유해주세요.
           </StyledDesciptionText>
         </StyledCodeContent>
-        <Button title="Copy" color={ButtonColor.blue} onPress={handleButtonPress}></Button>
+        <Button title="Copy" color={ButtonColor.blue} onPress={handleCopyPress}></Button>
       </StyledCodeContentWrapper>
     </Popup>
 
