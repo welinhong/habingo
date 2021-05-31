@@ -11,6 +11,8 @@ import {
   Text,
   Pressable,
   TextInput,
+  NativeSyntheticEvent,
+  TextInputEndEditingEventData,
 } from 'react-native'
 import { BingoStackList } from '../../src/types'
 import { theme } from '../../src/styles/theme'
@@ -94,6 +96,19 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   
   const handleEnterPress = () => {}
 
+  // TODO: API 붙이기
+  const handleOnEndEditing = (index: number) => (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
+    const value = e.nativeEvent.text
+    // id가 있다면, 수정 api를 호출한다
+    console.warn('빙고 아이템 수정', value)
+    // id가 있다면, 새로운 value가 ''라면, 삭제 api를 호출한다.
+    console.warn('빙고 아이템 삭제', value)
+    
+    // id가 없다면, 등록 api를 호출한다.
+    // 해당 빙고 아이템에 id값을 추가한다
+    console.warn('빙고 아이템 등록', value)
+  }
+
   // 모든 빙고값이 다 채워져 있는지 확인
   useEffect(() => {
     const isFilled = bingos.every((bingo) => bingo.value)
@@ -170,6 +185,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
                   placeholder="plz input your habit" 
                   multiline 
                   onChangeText={handleTextChange(index)}
+                  onEndEditing={handleOnEndEditing(index)}
                 />
               ) }
             </BingoBox>
