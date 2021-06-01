@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { StackNavigationProp } from '@react-navigation/stack'
 import styled from 'styled-components/native'
 import { RootStackParamList } from '../types'
@@ -6,6 +6,7 @@ import TextField from '../../src/components/mocules/TextField'
 import Button, { ButtonColor, ButtonSize } from '../../src/components/atoms/Button'
 import { theme } from '../../src/styles/theme'
 import Space from '../../src/components/atoms/Space'
+import { ApiContext } from '../../App'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'Login'>
@@ -15,6 +16,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [loginId, setLoginId] = useState('')
   const [password, setPassword] = useState('')
 
+  const api = useContext(ApiContext)
+
   const handleIdInput = (text: string) => {
     setLoginId(text)
   }
@@ -23,10 +26,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     setPassword(text)
   }
 
-  // TODO: Login api call
-  const handleButtonPress = () => {
-    console.warn('Login');
-    // api call
+  const handleButtonPress = async () => {
+    const response = await api.login({
+      loginId,
+      password
+    })
+    api.setAuthToken(response.token)
+
 
     // previous screen
     navigation.goBack()
@@ -34,7 +40,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <StyledLoginScreen>
-      <StyledContainerr>
+      <StyledContainer>
         <StyledTitle>
           Sign In
         </StyledTitle>
@@ -61,8 +67,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           />
         </StyledButtonWrap>
         <Space bottom={70} />
-      </StyledContainerr>
-    </StyledLoginScreen>
+      </StyledContainer>
+    </StyledLoginScreen>  
   )
 }
 
@@ -79,7 +85,7 @@ const StyledLoginScreen = styled.SafeAreaView`
   background-color: ${theme.color.background};
 `
 
-const StyledContainerr = styled.View`
+const StyledContainer = styled.View`
   align-items: center;
   padding: 20px;
 `
