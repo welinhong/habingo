@@ -2,8 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react';
 import { StyleSheet, View } from 'react-native'
 import { theme } from '../styles/theme';
-import BingoStack from './BingoStack';
-import StatisticsScreen from './StatisticsScreen';
+import BingoStack from './BingoStackNavigator';
+import StatisticsScreen from '../screens/StatisticsScreen';
 import BingoBoardIcon from '../../assets/icons/board.svg'
 import ChartIcon from '../../assets/icons/chart.svg'
 

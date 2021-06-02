@@ -1,6 +1,6 @@
 import { RouteProp } from '@react-navigation/core'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { theme } from '../styles/theme'
 import { BingoStackList } from '../types'

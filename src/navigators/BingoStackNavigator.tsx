@@ -1,8 +1,8 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { StyleSheet } from 'react-native'
-import BingoAddFormScreen from './BingoAddFormScreen'
-import BingoBoardScreen from './BingoBoardScreen'
+import BingoAddFormScreen from '../screens/BingoAddFormScreen'
+import BingoBoardScreen from '../screens/BingoBoardScreen'
 
 export interface Props {}
 

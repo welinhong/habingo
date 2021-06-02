@@ -3,7 +3,7 @@ import React, { createContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import Main from './src/screens/Main';
+import Main from './src/navigators/MainNavigator';
 import SettingScreen from './src/screens/SettingScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import ApiService from './src/services/ApiService';
@@ -12,6 +12,7 @@ const Stack = createStackNavigator();
 const api = new ApiService({
   baseURL: 'http://habingo-env.eba-euxjxc2f.ap-northeast-2.elasticbeanstalk.com'
 })
+
 export const ApiContext = createContext(api)
 const App = () => {
   const [apiContext, setApiContext] = useState(api)

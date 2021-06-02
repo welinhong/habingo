@@ -1,7 +1,7 @@
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentOptions, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import React from 'react'
 import { Button, StyleSheet, View } from 'react-native'
-import BottomTabs from './BottomTabs'
+import BottomTabs from './BottomTabNavigator'
 
 export interface Props {}
 
