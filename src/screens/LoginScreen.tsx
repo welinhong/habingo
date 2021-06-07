@@ -18,21 +18,12 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   const api = useContext(ApiContext)
 
-  const handleIdInput = (text: string) => {
-    setLoginId(text)
-  }
-
-  const handlePasswordInput = (text: string) => {
-    setPassword(text)
-  }
-
   const handleButtonPress = async () => {
     const response = await api.login({
       loginId,
       password
     })
     api.setAuthToken(response.token)
-
 
     // previous screen
     navigation.goBack()
@@ -48,13 +39,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <TextField
           value={loginId}
           placeholder="Id"
-          onChange={handleIdInput}
+          onChange={setLoginId}
         />
         <Space bottom={10} />
         <TextField
           value={password}
           placeholder="Password"
-          onChange={handlePasswordInput}
+          onChange={setPassword}
         />
         <Space bottom={30} />
         
