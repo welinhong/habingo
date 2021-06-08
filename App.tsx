@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -15,7 +15,8 @@ const api = new ApiService({
 
 export const ApiContext = createContext(api)
 const App = () => {
-  const [apiContext, setApiContext] = useState(api)
+  const apiContext = useContext(ApiContext)
+  
   return (
     <ApiContext.Provider value={apiContext}>
       <NavigationContainer>

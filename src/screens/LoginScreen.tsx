@@ -19,11 +19,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const api = useContext(ApiContext)
 
   const handleButtonPress = async () => {
-    const response = await api.login({
+    await api.login({
       loginId,
       password
     })
-    api.setAuthToken(response.token)
 
     // previous screen
     navigation.goBack()
