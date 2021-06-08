@@ -159,7 +159,6 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				C04A9B58B6D51BF6B4F734D1 /* [CP] Embed Pods Frameworks */,
 				25E2059DBE2BB9EF1053ECD5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -182,7 +181,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				2E89168AB343F79F68C93770 /* [CP] Embed Pods Frameworks */,
 				B9B4CDCF9439FD8A0B49FA73 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -281,23 +279,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-habingo-habingoTests/Pods-habingo-habingoTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2E89168AB343F79F68C93770 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-habingo/Pods-habingo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-habingo/Pods-habingo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-habingo/Pods-habingo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		456617A6993DF2D8C948C6AA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -357,23 +338,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-habingo/Pods-habingo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C04A9B58B6D51BF6B4F734D1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-habingo-habingoTests/Pods-habingo-habingoTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-habingo-habingoTests/Pods-habingo-habingoTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-habingo-habingoTests/Pods-habingo-habingoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
