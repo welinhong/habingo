@@ -12,7 +12,6 @@ target 'habingo' do
     :hermes_enabled => false
   )
 
-  pod 'RNSecureStorage', :path => '../node_modules/react-native-secure-storage'
 
   target 'habingoTests' do
     inherit! :complete
