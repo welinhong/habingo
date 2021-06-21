@@ -10,7 +10,7 @@ import ApiService from './src/services/ApiService';
 
 const Stack = createStackNavigator();
 const api = new ApiService({
-  baseURL: 'http://habingo-env.eba-euxjxc2f.ap-northeast-2.elasticbeanstalk.com'
+  baseURL: 'https://habingo.com'
 })
 
 export const ApiContext = createContext(api)
