@@ -1,24 +1,21 @@
 import 'react-native-gesture-handler';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Main from './src/navigators/MainNavigator';
 import SettingScreen from './src/screens/SettingScreen';
 import LoginScreen from './src/screens/LoginScreen';
-import ApiService from './src/services/ApiService';
+import { useAuth } from './src/hooks/useAuth';
+import { AuthContext } from './src/contexts/AuthContext';
 
 const Stack = createStackNavigator();
-const api = new ApiService({
-  baseURL: 'https://habingo.com'
-})
 
-export const ApiContext = createContext(api)
 const App = () => {
-  const apiContext = useContext(ApiContext)
+  const { auth, state } = useAuth()
   
   return (
-    <ApiContext.Provider value={apiContext}>
+    <AuthContext.Provider value={auth}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Main">
           <Stack.Screen
@@ -38,7 +35,7 @@ const App = () => {
           <Stack.Screen name="Settings" component={SettingScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-    </ApiContext.Provider>
+    </AuthContext.Provider>
   );
 };
 

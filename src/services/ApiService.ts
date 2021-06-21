@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
-import SecureStorage from 'react-native-secure-storage'
 
 /**
  * Manage api call
@@ -19,17 +18,16 @@ export class ApiService {
   async login(payload: { loginId: string; password: string }) {
     try {
       const response = await this.apiInstance.post('/users/login', payload)
-      await this.setAuthToken(response.data.token)
+      this.setAuthToken(response.data.token)
       return response.data
     } catch (error) {
       return new Error(error)
     }
   }
 
-  async setAuthToken(token: string) {
+  setAuthToken(token: string) {
     if (!token) return
     this.apiInstance.defaults.headers.common['X-AUTH-TOKEN'] = token
-    await SecureStorage.setItem('authToken', token)
   }
 
   async getMyAccountInfo() {
