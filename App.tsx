@@ -18,21 +18,26 @@ const App = () => {
     <AuthContext.Provider value={auth}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Main">
-          <Stack.Screen
-            name="Main"
-            component={Main}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen name="Settings" component={SettingScreen} />
+          {state?.user ? (
+            <>
+              <Stack.Screen
+                name="Main"
+                component={Main}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen name="Settings" component={SettingScreen} />
+            </>
+          ): (
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </AuthContext.Provider>
