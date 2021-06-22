@@ -6,7 +6,7 @@ import TextField from '../../src/components/mocules/TextField'
 import Button, { ButtonColor, ButtonSize } from '../../src/components/atoms/Button'
 import { theme } from '../../src/styles/theme'
 import Space from '../../src/components/atoms/Space'
-import { AuthContext } from '../../App'
+import { AuthContext } from '../../src/contexts/AuthContext'
 
 interface Props {
   navigation: StackNavigationProp<RootStackParamList, 'Login'>
@@ -17,12 +17,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const [password, setPassword] = useState('')
 
   const auth = useContext(AuthContext)
-
+  
   const handleButtonPress = async () => {
     await auth.login(loginId, password)
-
-    // previous screen
-    navigation.goBack()
   }
   
   return (
