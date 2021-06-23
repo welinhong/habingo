@@ -3,7 +3,7 @@
 // @ts-ignore
 import { RouteProp } from '@react-navigation/core'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,6 +14,7 @@ import {
   NativeSyntheticEvent,
   TextInputEndEditingEventData,
 } from 'react-native'
+import { UserContext } from '../../src/contexts/UserContext'
 import { BingoStackList } from '../../src/types'
 import { theme } from '../../src/styles/theme'
 import BingoBox from '../../src/components/atoms/BingoBox'
@@ -32,6 +33,8 @@ interface Props {
 }
 
 const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
+  const user = useContext(UserContext)
+  
   const [start, setStart] = useState(false)
   const [selectedBingobox, setSelectedBingobox] = useState(null)
   const [isAllBingoFilled, setIsAllBingoFilled] = useState(false)
@@ -40,7 +43,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const [friendCode, setFriendCode] = useState('')
   const [invitationCode, setInvitationCode] = useState('welinInivation') // TODO: API 확인 후 default value 수정하기
 
-  const userName = 'Welin'
+  const userName = user.name
 
   const [bingos, setBingos] = useState([
     {type: 'a', color: 'lightyellow', value: null},

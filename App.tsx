@@ -8,6 +8,7 @@ import SettingScreen from './src/screens/SettingScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import { useAuth } from './src/hooks/useAuth';
 import { AuthContext } from './src/contexts/AuthContext';
+import { UserContext } from './src/contexts/UserContext';
 
 const Stack = createStackNavigator();
 
@@ -17,28 +18,30 @@ const App = () => {
   return (
     <AuthContext.Provider value={auth}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Main">
-          {state?.user ? (
-            <>
-              <Stack.Screen
-                name="Main"
-                component={Main}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen name="Settings" component={SettingScreen} />
-            </>
-          ): (
+      {state?.user ? (
+        <UserContext.Provider value={state?.user}>
+          <Stack.Navigator initialRouteName="Main">
             <Stack.Screen
-              name="Login"
-              component={LoginScreen}
+              name="Main"
+              component={Main}
               options={{
                 headerShown: false,
               }}
             />
-          )}
+            <Stack.Screen name="Settings" component={SettingScreen} />
+          </Stack.Navigator>
+        </UserContext.Provider>
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack.Navigator>
+      )}
       </NavigationContainer>
     </AuthContext.Provider>
   );
