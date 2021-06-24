@@ -2,21 +2,23 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { theme } from '../../../styles/theme'
 
-export enum MessegeBoxColor {
+export enum MessageBoxColor {
   yellow = 'yellow',
   pink = 'pink',
 }
+
 export interface Props {
   title?: string
   messege?: string
-  color?: MessegeBoxColor
+  color?: MessageBoxColor
   onPress?: () => void
 }
 
-const MessegeBox: React.FC<Props> = ({ title, messege, color = MessegeBoxColor.yellow, onPress }) => {
+const MessageBox: React.FC<Props> = ({ title, messege, color = MessageBoxColor.yellow, onPress }) => {
   const handleOnPress = () => {
     onPress && onPress()
   }
+  
   return (
     <StyledContainer color={color} onPress={handleOnPress}>
       {title && <StyledTitle>{title}</StyledTitle>}
@@ -43,4 +45,4 @@ const StyledMesseage = styled.Text`
   font-weight: 400;
 `
 
-export default MessegeBox
+export default MessageBox
