@@ -62,6 +62,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   }
 
   const handleStartButtonPress = () => {
+    if (!isAllBingoFilled) return
     setStart(!start)
   }
 
@@ -176,7 +177,6 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
             onPress={handleStartButtonPress}
           />
         )}
-        {/* {isAllBingoFilled && <Button title={start ? "중지" : "시작하기"} onPress={handleStartButtonPress} />} */}
 
         <View style={styles.bingoContainer}>
           {bingos.map(({ type, color, value }, index) => (
