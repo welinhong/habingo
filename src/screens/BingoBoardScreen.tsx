@@ -42,11 +42,6 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [friendCode, setFriendCode] = useState('')
   const [invitationCode, setInvitationCode] = useState('welinInivation') // TODO: API 확인 후 default value 수정하기
-  const [message, setMessage] = useState({
-    title: '',
-    message: '',
-    color: MessageBoxColor.yellow,
-  })
 
   const userName = user.name
 
@@ -127,15 +122,6 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     setUnFilledBingoNumber(unfilledBingoNumbers)
   }, [bingos])
 
-  // print message
-  useEffect(() => {
-    setMessage({
-      color:  isAllBingoFilled ? MessageBoxColor.pink : MessageBoxColor.yellow,
-      title: isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.',
-      message: isAllBingoFilled ? 'If you want to start, click this box 👆': `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`
-    })
-  }, [isAllBingoFilled])
-
   return (
     <>
     <Popup title="Add your friend" open={isPopupOpen} onClose={handleClose}>
@@ -182,12 +168,12 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
             Lets start!
           </Text>
         </View>
-
+        
         { !start && (
           <MessegeBox
-            color={message.color}
-            title={message.title}
-            messege={message.message}
+            color={isAllBingoFilled ? MessageBoxColor.pink : MessageBoxColor.yellow}
+            title={isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.'}
+            message={isAllBingoFilled ? 'If you want to start, click this box 👆': `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
             onPress={handleStartButtonPress}
           />
         )}

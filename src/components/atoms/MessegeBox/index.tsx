@@ -9,12 +9,12 @@ export enum MessageBoxColor {
 
 export interface Props {
   title?: string
-  messege?: string
+  message?: string
   color?: MessageBoxColor
   onPress?: () => void
 }
 
-const MessageBox: React.FC<Props> = ({ title, messege, color = MessageBoxColor.yellow, onPress }) => {
+const MessageBox: React.FC<Props> = ({ title, message, color = MessageBoxColor.yellow, onPress }) => {
   const handleOnPress = () => {
     onPress && onPress()
   }
@@ -22,7 +22,7 @@ const MessageBox: React.FC<Props> = ({ title, messege, color = MessageBoxColor.y
   return (
     <StyledContainer color={color} onPress={handleOnPress}>
       {title && <StyledTitle>{title}</StyledTitle>}
-      {messege && <StyledMesseage>{messege}</StyledMesseage>}
+      {message && <StyledMesseage>{message}</StyledMesseage>}
     </StyledContainer>
   )
 }
