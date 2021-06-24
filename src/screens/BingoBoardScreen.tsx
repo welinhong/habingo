@@ -18,7 +18,7 @@ import { UserContext } from '../../src/contexts/UserContext'
 import { BingoStackList } from '../../src/types'
 import { theme } from '../../src/styles/theme'
 import BingoBox from '../../src/components/atoms/BingoBox'
-import MessegeBox, { MessegeBoxColor } from '../../src/components/atoms/MessegeBox'
+import MessegeBox, { MessageBoxColor } from '../../src/components/atoms/MessegeBox'
 import DashedButton from '../../src/components/mocules/DashedButton'
 import TextField from '../../src/components/mocules/TextField'
 import MenuIcon from '../../assets/icons/menu.svg'
@@ -42,6 +42,11 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [friendCode, setFriendCode] = useState('')
   const [invitationCode, setInvitationCode] = useState('welinInivation') // TODO: API 확인 후 default value 수정하기
+  const [message, setMessage] = useState({
+    title: '',
+    message: '',
+    color: MessageBoxColor.yellow,
+  })
 
   const userName = user.name
 
@@ -122,6 +127,15 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     setUnFilledBingoNumber(unfilledBingoNumbers)
   }, [bingos])
 
+  // print message
+  useEffect(() => {
+    setMessage({
+      color:  isAllBingoFilled ? MessageBoxColor.pink : MessageBoxColor.yellow,
+      title: isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.',
+      message: isAllBingoFilled ? 'If you want to start, click this box 👆': `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`
+    })
+  }, [isAllBingoFilled])
+
   return (
     <>
     <Popup title="Add your friend" open={isPopupOpen} onClose={handleClose}>
@@ -171,9 +185,9 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
 
         { !start && (
           <MessegeBox
-            color={isAllBingoFilled ? MessegeBoxColor.pink : MessegeBoxColor.yellow}
-            title={isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.'}
-            messege={isAllBingoFilled ? 'If you want to start, click this box 👆' : `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
+            color={message.color}
+            title={message.title}
+            messege={message.message}
             onPress={handleStartButtonPress}
           />
         )}
