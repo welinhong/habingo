@@ -13,6 +13,8 @@ import {
   TextInput,
   NativeSyntheticEvent,
   TextInputEndEditingEventData,
+  Keyboard,
+  TouchableWithoutFeedback
 } from 'react-native'
 import { UserContext } from '../../src/contexts/UserContext'
 import { BingoStackList } from '../../src/types'
@@ -26,6 +28,7 @@ import Popup from '../../src/components/mocules/Popup'
 import Button, { ButtonColor } from '../../src/components/atoms/Button'
 import styled from 'styled-components/native'
 import Clipboard from '@react-native-community/clipboard'
+import { useBingoService } from '../hooks/useBingoService'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -42,19 +45,20 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [friendCode, setFriendCode] = useState('')
   const [invitationCode, setInvitationCode] = useState('welinInivation') // TODO: API 확인 후 default value 수정하기
+  const [bingoId, setBingoId] = useState(0)
 
   const userName = user.name
 
-  const [bingos, setBingos] = useState([
-    {type: 'a', color: 'lightyellow', value: null},
-    {type: 'b', color: 'lightyellow', value: null},
-    {type: 'c', color: 'lightyellow', value: null},
-    {type: 'd', color: 'lightyellow', value: null},
-    {type: 'e', color: 'lightyellow', value: null},
-    {type: 'f', color: 'lightyellow', value: null},
-    {type: 'a', color: 'lightyellow', value: null},
-    {type: 'b', color: 'lightyellow', value: null},
-    {type: 'c', color: 'lightyellow', value: null},
+  const [bingoItems, setBingoItems] = useState([
+    {id: null, value: null, seq: null, type: 'a', color: 'lightyellow'},
+    {id: null, value: null, seq: null, type: 'b', color: 'lightyellow'},
+    {id: null, value: null, seq: null, type: 'c', color: 'lightyellow'},
+    {id: null, value: null, seq: null, type: 'd', color: 'lightyellow'},
+    {id: null, value: null, seq: null, type: 'e', color: 'lightyellow'},
+    {id: null, value: null, seq: null, type: 'f', color: 'lightyellow'},
+    {id: null, value: null, seq: null, type: 'a', color: 'lightyellow'},
+    {id: null, value: null, seq: null, type: 'b', color: 'lightyellow'},
+    {id: null, value: null, seq: null, type: 'c', color: 'lightyellow'},
   ])
 
   const handleMenuPress = () => {
@@ -69,7 +73,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const handleTextChange = (index: number) => (text: string) => {
     const value = text
     
-    setBingos((prevBingos) => {
+    setBingoItems((prevBingos) => {
       const updated = prevBingos.map((bingo, bingoIndex) => {
         return index === bingoIndex ? {
           ...bingo,
@@ -100,27 +104,60 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   
   const handleEnterPress = () => {}
 
-  // TODO: API 붙이기
-  const handleOnEndEditing = (index: number) => (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
+  const bingoService = useBingoService()
+  const handleOnEndEditing = (index: number) => async (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
     const value = e.nativeEvent.text
-    // id가 있다면, 수정 api를 호출한다
-    console.warn('빙고 아이템 수정', value)
-    // id가 있다면, 새로운 value가 ''라면, 삭제 api를 호출한다.
-    console.warn('빙고 아이템 삭제', value)
-    
-    // id가 없다면, 등록 api를 호출한다.
-    // 해당 빙고 아이템에 id값을 추가한다
-    console.warn('빙고 아이템 등록', value)
+    if (!value) return
+    await bingoService.addItem(bingoId, value)
   }
+
+  // 빙고 데이터 불러오기
+  useEffect(() => {
+    const getBingoDetail = async () => {
+      // 빙고 리스트 호출
+      const { latestBingoId } = await bingoService.getList()
+
+      if (latestBingoId) {
+        setBingoId(latestBingoId)
+
+        // 있다면, 가장 최근의 빙고를 가져와서 보여준다
+        const bingo = await bingoService.getDetail(latestBingoId)
+
+        // bingo.bingoItems seq 순서대로 정렬하기
+        bingo.bingoItems.sort((a: any, b: any) => a.seq - b.seq)
+
+        // 빙고 데이터 셋팅
+        setBingoItems((oldBingoItems) => {
+          const newBingoItems = oldBingoItems.map((item, index) => {
+            if (!bingo?.bingoItems[index]) return item
+            const { id, seq, contents } = bingo.bingoItems[index]
+            return {
+              ...item,
+              id,
+              seq,
+              value: contents
+            }
+          })
+          return newBingoItems
+        })
+      } else {
+        // 없다면, 새로운 빙고를 생성한다
+        const { id } = await bingoService.addOne()
+        setBingoId(id)
+      }
+    }
+
+    getBingoDetail()
+  }, [])
 
   // 모든 빙고값이 다 채워져 있는지 확인
   useEffect(() => {
-    const isFilled = bingos.every((bingo) => bingo.value)
+    const isFilled = bingoItems.every((bingo) => bingo.value)
     setIsAllBingoFilled(isFilled)
 
-    const unfilledBingoNumbers = bingos.filter((bingo) => !bingo.value).length
+    const unfilledBingoNumbers = bingoItems.filter((bingo) => !bingo.value).length
     setUnFilledBingoNumber(unfilledBingoNumbers)
-  }, [bingos])
+  }, [bingoItems])
 
   return (
     <>
@@ -150,6 +187,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     </Popup>
 
     <SafeAreaView style={styles.BingoBoardScreenWrap}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.BingoBoardScreen}>
         <View style={styles.header}>
           <Text style={styles.title}>
@@ -179,10 +217,11 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
         )}
 
         <View style={styles.bingoContainer}>
-          {bingos.map(({ type, color, value }, index) => (
+          {bingoItems.map(({ type, color, value, id }, index) => (
             <BingoBox type={type} highlight={selectedBingobox === index} key={index}>
-              { start && <Text>{value}</Text> }
-              { !start && (
+              {(start || id) ? (
+                <Text>{value}</Text>
+              ): (
                 <TextInput
                   value={value}
                   placeholder="plz input your habit" 
@@ -190,7 +229,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
                   onChangeText={handleTextChange(index)}
                   onEndEditing={handleOnEndEditing(index)}
                 />
-              ) }
+              )}
             </BingoBox>
           ))}
         </View>
@@ -201,6 +240,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
           onPress={handleDashedButtonPress}
         />
       </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
     </>
   )

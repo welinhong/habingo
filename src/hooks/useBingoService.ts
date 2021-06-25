@@ -20,10 +20,10 @@ export function useBingoService() {
         const { data } = await api.get('/bingos')
 
         // bingo list + latest bingoId
-        const latestBingo = data[data.length - 1]
+        const latestBingo = data.length > 0 ? data[data.length - 1] : null
         return {
           list: data,
-          latestBingoId: latestBingo.id,
+          latestBingoId: latestBingo ? latestBingo.id : null,
         }
       } catch (e) {
         throw new Error(e)
@@ -34,7 +34,7 @@ export function useBingoService() {
     addOne: async () => {
       try {
         const { data } = await api.post('/bingos')
-        return data.id // bingoId
+        return data
       } catch (e) {
         throw new Error(e)
       }
