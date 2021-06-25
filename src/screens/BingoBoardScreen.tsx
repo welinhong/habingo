@@ -110,14 +110,20 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
 
   // Done item or Clear Done item
   const handleBingoItemPress = (id: number) => async (event: GestureResponderEvent) => {
-    await bingoService.doneItem(bingoId, id)
-    // 해당하는 id의 done 필드 업데이트하기
+    // check if item is done
+    const selectedItem = bingoItems.find((item) => item.id === id)
+    if (selectedItem?.done) {
+      await bingoService.cancelItemDone(bingoId, id)
+    } else {
+      await bingoService.doneItem(bingoId, id)
+    }
+
     setBingoItems((oldBingoItems) => {
       return oldBingoItems.map((item) => {
         if (item.id !== id) return item
         return {
           ...item,
-          done: true
+          done: !selectedItem?.done
         }
       })
     })
