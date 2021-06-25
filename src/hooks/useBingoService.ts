@@ -56,8 +56,7 @@ export function useBingoService() {
         const { data } = await api.post(`/bingos/${bingoId}/items`, {
           contents,
         })
-        const itemAdded = data.bingoItems[data.bingoItems.length - 1]
-        return itemAdded.id
+        return data.bingoItems
       } catch (e) {
         throw new Error(e)
       }

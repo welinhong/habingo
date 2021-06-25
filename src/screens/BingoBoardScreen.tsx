@@ -42,6 +42,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   
   const [isAllBingoFilled, setIsAllBingoFilled] = useState(false)
   const [unfilledBingoNumber, setUnFilledBingoNumber] = useState(0)
+  const [isStarted, setIsStarted] = useState(false)
 
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [friendCode, setFriendCode] = useState('')
@@ -125,12 +126,12 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
       })
     })
   }
-
   
   const handleOnEndEditing = (index: number) => async (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
     const value = e.nativeEvent.text
     if (!value) return
-    await bingoService.addItem(bingoId, value)
+    const newBingoItems = await bingoService.addItem(bingoId, value)
+    updateBingoItems(newBingoItems)
   }
 
   const updateBingoItems = (newBingoItems: any) => {
@@ -179,11 +180,17 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
 
   // 모든 빙고값이 다 채워져 있는지 확인
   useEffect(() => {
-    const isFilled = bingoItems.every((bingo) => bingo.value)
-    setIsAllBingoFilled(isFilled)
-
     const unfilledBingoNumbers = bingoItems.filter((bingo) => !bingo.value).length
     setUnFilledBingoNumber(unfilledBingoNumbers)
+    
+    const isFilled = unfilledBingoNumber === 0
+    setIsAllBingoFilled(isFilled)
+  }, [bingoItems])
+
+  // 빙고 아이템이 모두 추가되었는지 확인 - 게임 시작 여부를 결정한다
+  useEffect(() => {
+    const start = bingoItems.every((item) => !!item.id)
+    setIsStarted(start)
   }, [bingoItems])
 
   return (
@@ -234,12 +241,14 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
           </Text>
         </View>
         
-        <MessegeBox
-          color={isAllBingoFilled ? MessageBoxColor.pink : MessageBoxColor.yellow}
-          title={isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.'}
-          message={isAllBingoFilled ? 'If you want to start, click this box 👆': `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
-          onPress={handleStartButtonPress}
-        />
+        {!isStarted && (
+          <MessegeBox
+            color={isAllBingoFilled ? MessageBoxColor.pink : MessageBoxColor.yellow}
+            title={isAllBingoFilled ? 'Save' : 'Fill up your bingo.'}
+            message={isAllBingoFilled ? `Click 'Save', if you fill up all bingo boxes` : `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
+            onPress={handleStartButtonPress}
+          />
+        )}
 
         <View style={styles.bingoContainer}>
           {bingoItems.map(({ type, color, value, id, done }, index) => (
