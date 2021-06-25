@@ -30,7 +30,6 @@ import Button, { ButtonColor } from '../../src/components/atoms/Button'
 import styled from 'styled-components/native'
 import Clipboard from '@react-native-community/clipboard'
 import { useBingoService } from '../hooks/useBingoService'
-import { sleep } from '../../src/utils/sleep'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -41,9 +40,9 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const user = useContext(UserContext)
   const bingoService = useBingoService()
   
-  const [start, setStart] = useState(false)
   const [isAllBingoFilled, setIsAllBingoFilled] = useState(false)
   const [unfilledBingoNumber, setUnFilledBingoNumber] = useState(0)
+
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [friendCode, setFriendCode] = useState('')
   const [invitationCode, setInvitationCode] = useState('welinInivation') // TODO: API 확인 후 default value 수정하기
@@ -70,8 +69,6 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const handleStartButtonPress = useCallback(async () => {
     if (!isAllBingoFilled) return
     Keyboard.dismiss()
-    await sleep(1000) // TODO: 실행순서 보장하도록 코드 수정 후 요 코드 제거하기 - 현재 순서가 dismiss 실행 -> setStart 실행 -> 요 클래스 다시 생성됨 (그래서 handleOnEndEditing 실행이 안 됨)
-    setStart(true)
   }, [isAllBingoFilled])
 
   const handleTextChange = (index: number) => (text: string) => {
@@ -237,14 +234,12 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
           </Text>
         </View>
         
-        { !start && (
-          <MessegeBox
-            color={isAllBingoFilled ? MessageBoxColor.pink : MessageBoxColor.yellow}
-            title={isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.'}
-            message={isAllBingoFilled ? 'If you want to start, click this box 👆': `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
-            onPress={handleStartButtonPress}
-          />
-        )}
+        <MessegeBox
+          color={isAllBingoFilled ? MessageBoxColor.pink : MessageBoxColor.yellow}
+          title={isAllBingoFilled ? 'Now, ready to start!' : 'Fill up your bingo.'}
+          message={isAllBingoFilled ? 'If you want to start, click this box 👆': `You can start the game by completing ${unfilledBingoNumber} ${unfilledBingoNumber > 1 ? 'boxes' : 'box' }`}
+          onPress={handleStartButtonPress}
+        />
 
         <View style={styles.bingoContainer}>
           {bingoItems.map(({ type, color, value, id, done }, index) => (
@@ -254,7 +249,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
               {...(id !== null ? {onPress: handleBingoItemPress(id)} : {})}
               key={index}
             >
-              {(start || id) ? (
+              {(id) ? (
                 <Text>{value}</Text>
               ): (
                 <TextInput
