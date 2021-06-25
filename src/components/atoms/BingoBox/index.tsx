@@ -1,17 +1,18 @@
 import React from 'react'
+import { GestureResponderEvent } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import {theme} from '../../../styles/theme'
 
 export interface Props {
-  type: string
-  highlight?: boolean
-  onPress?: () => void
+  type: string // NOTE: shape이란 단어가 더 명확할 거 같다
+  checked?: boolean
+  onPress?: (event: GestureResponderEvent) => void
   onLongPress?: () => void
 }
 
-const BingoBox: React.FC<Props> = ({ type, highlight = false, onPress, onLongPress, children }) => {
+const BingoBox: React.FC<Props> = ({ type, checked = false, onPress, onLongPress, children }) => {
   return (
-    <StyledPressableContainer type={type} highlight={highlight} onPress={onPress} onLongPress={onLongPress}>
+    <StyledPressableContainer type={type} checked={checked} onPress={onPress} onLongPress={onLongPress}>
       { children }
     </StyledPressableContainer>
   )
@@ -26,8 +27,8 @@ const StyledPressableContainer = styled.Pressable<Props>`
   padding: 10px;
   background-color: #ffffff;
 
-  ${(props) => props.highlight && css`
-    border: 2px solid ${theme.color.deepyellow};
+  ${(props) => props.checked && css`
+    background-color: ${theme.color.blue};
   `}
 
   ${(props) =>  {

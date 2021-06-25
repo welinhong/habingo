@@ -88,8 +88,8 @@ export function useBingoService() {
     // 빙고 DONE 처리하기
     doneItem: async (bingoId: number, itemId: number, pictureUrl?: string) => {
       try {
-        const payload = pictureUrl ? { pictureUrl } : null
-        await api.post(`/bingos/${bingoId}/items/${itemId}`, payload)
+        const payload = pictureUrl ? { pictureUrl } : {}
+        await api.post(`/bingos/${bingoId}/items/${itemId}/done`, payload)
         return itemId
       } catch (e) {
         throw new Error(e)
