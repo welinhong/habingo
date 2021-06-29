@@ -19,11 +19,12 @@ export function useBingoService() {
       try {
         const { data } = await api.get('/bingos')
 
-        // bingo list + latest bingoId
+        // bingo list + latest bingoId + lasted bingoRoomId
         const latestBingo = data.length > 0 ? data[data.length - 1] : null
         return {
           list: data,
           latestBingoId: latestBingo ? latestBingo.id : null,
+          latestBingoBingoRoomId: latestBingo ? latestBingo.bingoRoomId : null,
         }
       } catch (e) {
         throw new Error(e)

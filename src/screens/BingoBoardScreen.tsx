@@ -25,7 +25,8 @@ import MessegeBox, { MessageBoxColor } from '../../src/components/atoms/MessegeB
 import DashedButton from '../../src/components/mocules/DashedButton'
 import MenuIcon from '../../assets/icons/menu.svg'
 import { useBingoService } from '../hooks/useBingoService'
-import InvitatinoPopup from '../../src/components/organisms/InvitationPopup'
+import InvitationPopup from '../../src/components/organisms/InvitationPopup'
+import { useBingoRoomService } from '../../src/hooks/useBingoRoomService'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -35,6 +36,7 @@ interface Props {
 const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const user = useContext(UserContext)
   const bingoService = useBingoService()
+  const bingoRoomService = useBingoRoomService()
   
   const [isAllBingoFilled, setIsAllBingoFilled] = useState(false)
   const [unfilledBingoNumber, setUnFilledBingoNumber] = useState(0)
@@ -42,7 +44,14 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   
   const [isPopupOpen, setIsPopupOpen] = useState(false)
 
-  const [bingoId, setBingoId] = useState(0)
+  const [bingoInfo, setBingoInfo] = useState({
+    id: undefined,
+    bingoRoomId: undefined
+  })
+  const [bingoRoomInfo, setBingoRoomInfo] = useState<{id: number | undefined, inviteCode: string | undefined}>({
+    id: undefined,
+    inviteCode: undefined
+  })
 
   const userName = user.name
 
@@ -82,8 +91,28 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   }
 
   // 친구 추가 버튼 - 팝업을 띄운다
-  const handleDashedButtonPress = () => {
+  const handleFriendAddButtonPress = async () => {
+    // 팝업 띄우기
     setIsPopupOpen(true)
+
+    // check if there is bingoRoomId, then set inviteCode
+    try {
+      if (bingoInfo?.bingoRoomId) {
+        const bingoRoomInfo = await bingoRoomService.getDetail(bingoInfo.bingoRoomId!)
+        setBingoRoomInfo({
+          id: bingoRoomInfo?.id,
+          inviteCode: bingoRoomInfo?.inviteCode,
+        })
+      } else {
+        const bingoRoomInfo = await bingoRoomService.createBingoRoom(bingoInfo.id!)
+        setBingoRoomInfo({
+          id: bingoRoomInfo?.id,
+          inviteCode: bingoRoomInfo?.inviteCode,
+        })
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
   }
 
   // Done item or Clear Done item
@@ -91,9 +120,9 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     // check if item is done
     const selectedItem = bingoItems.find((item) => item.id === id)
     if (selectedItem?.done) {
-      await bingoService.cancelItemDone(bingoId, id)
+      await bingoService.cancelItemDone(bingoInfo.id!, id)
     } else {
-      await bingoService.doneItem(bingoId, id)
+      await bingoService.doneItem(bingoInfo.id!, id)
     }
 
     setBingoItems((oldBingoItems) => {
@@ -110,7 +139,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const handleOnEndEditing = (index: number) => async (e: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
     const value = e.nativeEvent.text
     if (!value) return
-    const newBingoItems = await bingoService.addItem(bingoId, value)
+    const newBingoItems = await bingoService.addItem(bingoInfo.id!, value)
     updateBingoItems(newBingoItems)
   }
 
@@ -139,10 +168,13 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   useEffect(() => {
     const getBingoDetail = async () => {
       // 빙고 리스트 호출
-      const { latestBingoId } = await bingoService.getList()
+      const { latestBingoId, latestBingoBingoRoomId } = await bingoService.getList()
 
       if (latestBingoId) {
-        setBingoId(latestBingoId)
+        setBingoInfo({
+          id: latestBingoId,
+          bingoRoomId: latestBingoBingoRoomId
+        })
 
         // 있다면, 가장 최근의 빙고를 가져와서 보여준다
         const bingo = await bingoService.getDetail(latestBingoId)
@@ -154,8 +186,11 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
         updateBingoItems(bingo?.bingoItems)
       } else {
         // 없다면, 새로운 빙고를 생성한다
-        const { id } = await bingoService.addOne()
-        setBingoId(id)
+        const { id, bingoRoomId } = await bingoService.addOne()
+        setBingoInfo({
+          id,
+          bingoRoomId
+        })
       }
     }
 
@@ -180,7 +215,10 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   return (
     <>
     {/* TODO: api 호출해서 invitation code 넣어주기 */}
-    <InvitatinoPopup invitationCode="" isOpen={isPopupOpen} onClose={handlePopupClose} />
+    <InvitationPopup
+      invitationCode={bingoRoomInfo.inviteCode!}
+      isOpen={isPopupOpen}onClose={handlePopupClose}
+    />
 
     <SafeAreaView style={styles.BingoBoardScreenWrap}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -238,7 +276,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
         <DashedButton
           title="+ add your friend" 
           color={theme.color.white}
-          onPress={handleDashedButtonPress}
+          onPress={handleFriendAddButtonPress}
         />
       </View>
       </TouchableWithoutFeedback>
