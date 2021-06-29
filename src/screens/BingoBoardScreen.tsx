@@ -23,13 +23,9 @@ import { theme } from '../../src/styles/theme'
 import BingoBox from '../../src/components/atoms/BingoBox'
 import MessegeBox, { MessageBoxColor } from '../../src/components/atoms/MessegeBox'
 import DashedButton from '../../src/components/mocules/DashedButton'
-import TextField from '../../src/components/mocules/TextField'
 import MenuIcon from '../../assets/icons/menu.svg'
-import Popup from '../../src/components/mocules/Popup'
-import Button, { ButtonColor } from '../../src/components/atoms/Button'
-import styled from 'styled-components/native'
-import Clipboard from '@react-native-community/clipboard'
 import { useBingoService } from '../hooks/useBingoService'
+import InvitatinoPopup from '../../src/components/organisms/InvitationPopup'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -43,10 +39,9 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const [isAllBingoFilled, setIsAllBingoFilled] = useState(false)
   const [unfilledBingoNumber, setUnFilledBingoNumber] = useState(0)
   const [isStarted, setIsStarted] = useState(false)
-
+  
   const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const [friendCode, setFriendCode] = useState('')
-  const [invitationCode, setInvitationCode] = useState('welinInivation') // TODO: API 확인 후 default value 수정하기
+
   const [bingoId, setBingoId] = useState(0)
 
   const userName = user.name
@@ -90,21 +85,6 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
   const handleDashedButtonPress = () => {
     setIsPopupOpen(true)
   }
-
-  // 팝업 닫기
-  const handleClose = () => {
-    setIsPopupOpen(false)
-  }
-
-  const handleFriendCodeChange = (text: string) => {
-    setFriendCode(text)
-  }
-
-  const handleCopyPress = () => {
-    Clipboard.setString(invitationCode);
-  }
-  
-  const handleEnterPress = () => {}
 
   // Done item or Clear Done item
   const handleBingoItemPress = (id: number) => async (event: GestureResponderEvent) => {
@@ -151,6 +131,10 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     })
   }
 
+  const handlePopupClose = () => {
+    setIsPopupOpen(false)
+  }
+
   // 빙고 데이터 불러오기
   useEffect(() => {
     const getBingoDetail = async () => {
@@ -195,30 +179,8 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <>
-    <Popup title="Add your friend" open={isPopupOpen} onClose={handleClose}>
-      <TextField
-        value={friendCode}
-        placeholder="Enter friend's code"
-        onChange={handleFriendCodeChange}
-        isButton={true}
-        buttonTitle="Enter"
-        buttonColor={friendCode ? ButtonColor.deepyellow : ButtonColor.lightgray}
-        onPress={handleEnterPress}
-      />
-      <StyledDivider>
-        <StyledOrText>or</StyledOrText>
-      </StyledDivider>
-
-      <StyledCodeContentWrapper>
-        <StyledCodeContent>
-          <StyledTitleText>Code: {invitationCode}</StyledTitleText>
-          <StyledDesciptionText>
-            코드를 복사해 함께 할 친구에게 공유해주세요.
-          </StyledDesciptionText>
-        </StyledCodeContent>
-        <Button title="Copy" color={ButtonColor.blue} onPress={handleCopyPress}></Button>
-      </StyledCodeContentWrapper>
-    </Popup>
+    {/* TODO: api 호출해서 invitation code 넣어주기 */}
+    <InvitatinoPopup invitationCode="" isOpen={isPopupOpen} onClose={handlePopupClose} />
 
     <SafeAreaView style={styles.BingoBoardScreenWrap}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -335,32 +297,5 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 })
-
-const StyledDivider = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-`
-
-const StyledOrText = styled.Text``
-
-const StyledCodeContentWrapper = styled.View`
-  display: flex;
-  flex-direction: row;
-`
-const StyledCodeContent = styled.View`
-  flex: 1;
-`
-const StyledTitleText = styled.Text`
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 5px;
-`
-const StyledDesciptionText = styled.Text`
-  font-size: 14px;
-  font-weight: 400;
-`
 
 export default BingoBoardScreen
