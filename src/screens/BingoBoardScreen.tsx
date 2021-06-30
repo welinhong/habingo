@@ -5,11 +5,7 @@ import { RouteProp } from '@react-navigation/core'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import React, { useEffect, useState, useContext, useCallback } from 'react'
 import {
-  SafeAreaView,
-  StyleSheet,
-  View,
   Text,
-  Pressable,
   TextInput,
   NativeSyntheticEvent,
   TextInputEndEditingEventData,
@@ -17,17 +13,20 @@ import {
   TouchableWithoutFeedback,
   GestureResponderEvent
 } from 'react-native'
+import styled from 'styled-components/native'
 import { UserContext } from '../../src/contexts/UserContext'
 import { BingoStackList } from '../../src/types'
 import { theme } from '../../src/styles/theme'
 import BingoBox from '../../src/components/atoms/BingoBox'
 import MessegeBox, { MessageBoxColor } from '../../src/components/atoms/MessegeBox'
 import DashedButton from '../../src/components/mocules/DashedButton'
-import MenuIcon from '../../assets/icons/menu.svg'
 import { useBingoService } from '../hooks/useBingoService'
 import InvitationPopup from '../../src/components/organisms/InvitationPopup'
 import { useBingoRoomService } from '../../src/hooks/useBingoRoomService'
 import Header from '../../src/components/mocules/Header'
+import IntroMessageBox from '../../src/components/atoms/IntroMessageBox'
+import Margin from '../../src/components/atoms/Margin'
+
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -221,19 +220,14 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
       isOpen={isPopupOpen}onClose={handlePopupClose}
     />
 
-    <SafeAreaView style={styles.BingoBoardScreenWrap}>
+    <StyledBingoBoardScreen>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.BingoBoardScreen}>
+      <StyledBingoBoardScreenInner>
         <Header onPress={handleMenuPress} />
 
-        <View style={styles.introMessageBox}>
-          <Text style={styles.introMessage}>
-            Hi {userName},
-          </Text>
-          <Text style={styles.introMessage}>
-            Lets start!
-          </Text>
-        </View>
+        <Margin bottom={16}>
+          <IntroMessageBox name={userName} />
+        </Margin>
         
         {!isStarted && (
           <MessegeBox
@@ -244,7 +238,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
           />
         )}
 
-        <View style={styles.bingoContainer}>
+        <StyledBingoContainer>
           {bingoItems.map(({ type, color, value, id, done }, index) => (
             <BingoBox
               type={type}
@@ -265,52 +259,32 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
               )}
             </BingoBox>
           ))}
-        </View>
+        </StyledBingoContainer>
 
         <DashedButton
           title="+ add your friend" 
           color={theme.color.white}
           onPress={handleFriendAddButtonPress}
         />
-      </View>
+      </StyledBingoBoardScreenInner>
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </StyledBingoBoardScreen>
     </>
   )
 }
 
-const styles = StyleSheet.create({
-  BingoBoardScreen: {
-    padding: 15,
-  },
-  BingoBoardScreenWrap: {
-    flex: 1,
-    backgroundColor: theme.color.background,
-  },
-  introMessageBox: {
-    marginBottom: 15,
-  },
-  introMessage: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: theme.color.mainFont,
-  },
-  bingoContainer: {
-    display: 'flex',
-    width: 345,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: 16,
-  },
-  placeholder: {
-    color: 'grey'
-  },
-  inputButtonText: {
-    color: '#666666',
-  },
-  messege: {
-    textAlign: 'center'
-  }
-})
-
+const StyledBingoContainer = styled.View`
+  display: flex;
+  width: 345px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+`
+const StyledBingoBoardScreen = styled.SafeAreaView`
+  flex: 1;
+  background-color: ${theme.color.background};
+`
+const StyledBingoBoardScreenInner = styled.View`
+  padding: 15px;
+`
 export default BingoBoardScreen
