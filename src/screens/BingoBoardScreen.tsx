@@ -27,6 +27,7 @@ import MenuIcon from '../../assets/icons/menu.svg'
 import { useBingoService } from '../hooks/useBingoService'
 import InvitationPopup from '../../src/components/organisms/InvitationPopup'
 import { useBingoRoomService } from '../../src/hooks/useBingoRoomService'
+import Header from '../../src/components/mocules/Header'
 
 interface Props {
   route: RouteProp<BingoStackList, 'BingoBoard'>
@@ -223,14 +224,7 @@ const BingoBoardScreen: React.FC<Props> = ({ route, navigation }) => {
     <SafeAreaView style={styles.BingoBoardScreenWrap}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.BingoBoardScreen}>
-        <View style={styles.header}>
-          <Text style={styles.title}>
-            HaBingo
-          </Text>
-          <Pressable style={styles.menuButton} onPress={handleMenuPress}>
-            <MenuIcon />
-          </Pressable>
-        </View>
+        <Header onPress={handleMenuPress} />
 
         <View style={styles.introMessageBox}>
           <Text style={styles.introMessage}>
@@ -292,23 +286,6 @@ const styles = StyleSheet.create({
   BingoBoardScreenWrap: {
     flex: 1,
     backgroundColor: theme.color.background,
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 36,
-    fontWeight: 'bold',
-    color: theme.color.mainFont,
-  },
-  menuButton: {
-    position: 'absolute',
-    right: 0,
   },
   introMessageBox: {
     marginBottom: 15,
